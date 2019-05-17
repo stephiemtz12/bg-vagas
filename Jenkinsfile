@@ -2,7 +2,7 @@ pipeline {
   agent any
 
   environment { 
-    AWSCLI = "aws autoscaling describe-auto-scaling-groups --query 'AutoScalingGroups[?contains(Tags[?Key==`Name`].Value, `API-CANDIDATOS`)].[DesiredCapacity]' --output text"
+    AWSCLI = "aws autoscaling describe-auto-scaling-groups --query 'AutoScalingGroups[?contains(Tags[?Key==`Name`].Value, `API-CANDIDATOS`)].[DesiredCapacity]' --region sa-east-1 --output text"
     VERSAO = '0.2'
     BRANCH_PRODUCAO = 'master'
     BRANCH_STAGING = 'staging'
