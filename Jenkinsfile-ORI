@@ -2,7 +2,7 @@ pipeline {
   agent any
 
   environment { 
-    AWSCLI = "aws autoscaling describe-auto-scaling-groups --query 'AutoScalingGroups[?contains(Tags[?Key==`Name`].Value, `API-CANDIDATOS`)].[DesiredCapacity]' --output text"
+    AWSCLI = "aws autoscaling describe-auto-scaling-groups --query 'AutoScalingGroups[?contains(Tags[?Key==`Aplicacao`].Value, `API-CANDIDATOS`)].[DesiredCapacity]' --output text"
     VERSAO = '0.2'
     BRANCH_PRODUCAO = 'master'
     BRANCH_STAGING = 'staging'
@@ -28,7 +28,8 @@ pipeline {
       }
       steps{
         checkout([$class: 'GitSCM', branches: [[name: '*/master']], doGenerateSubmoduleConfigurations: false, 
-        extensions: [], submoduleCfg: [], userRemoteConfigs: [[url: 'https://github.com/jailson-silva/bg-vagas.git']]])
+        extensions: [], submoduleCfg: [], userRemoteConfigs: [[credentialsId: 'Jailson-Bitbucket', 
+        url: 'https://jailsonsilva@bitbucket.org/vagas/api_recomendacao_candidatos.git']]])
       }
     }
 
@@ -38,7 +39,8 @@ pipeline {
       }
       steps{
         checkout([$class: 'GitSCM', branches: [[name: '*/staging']], doGenerateSubmoduleConfigurations: false, 
-        extensions: [], submoduleCfg: [], userRemoteConfigs: [[url: 'https://github.com/jailson-silva/bg-vagas.git']]])
+        extensions: [], submoduleCfg: [], userRemoteConfigs: [[credentialsId: 'Jailson-Bitbucket', 
+        url: 'https://jailsonsilva@bitbucket.org/vagas/api_recomendacao_candidatos.git']]])
       }
     }
 
@@ -67,7 +69,7 @@ pipeline {
     stage('Deploy da nova imagem'){
       steps{
         withCredentials([[$class: 'AmazonWebServicesCredentialsBinding', accessKeyVariable: 'AWS_ACCESS_KEY_ID', credentialsId: '4a46de99-703c-47ba-8323-df4bca0b5949', secretKeyVariable: 'AWS_SECRET_ACCESS_KEY']]) {
-          dir('terraform') {
+          dir('terraform/asg') {
             sh """
               export AWS_ACCESS_KEY_ID=\$AWS_ACCESS_KEY_ID
               export AWS_SECRET_ACCESS_KEY_ID=\$AWS_SECRET_ACCESS_KEY
