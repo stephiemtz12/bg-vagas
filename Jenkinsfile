@@ -53,7 +53,7 @@ pipeline {
     stage('Inicializando Terraform'){
       steps{
         withCredentials([[$class: 'AmazonWebServicesCredentialsBinding', accessKeyVariable: 'AWS_ACCESS_KEY_ID', credentialsId: 'jailson-aws', secretKeyVariable: 'AWS_SECRET_ACCESS_KEY']]) {
-          dir('terraform/asg') {
+          dir('terraform') {
             sh """
               terraform init \
               -backend-config="access_key=${AWS_ACCESS_KEY_ID} \
