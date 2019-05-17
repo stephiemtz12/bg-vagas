@@ -66,7 +66,7 @@ pipeline {
 
     stage('Deploy da nova imagem'){
       steps{
-        withCredentials([[$class: 'AmazonWebServicesCredentialsBinding', accessKeyVariable: 'AWS_ACCESS_KEY_ID', credentialsId: '4a46de99-703c-47ba-8323-df4bca0b5949', secretKeyVariable: 'AWS_SECRET_ACCESS_KEY']]) {
+        withCredentials([[$class: 'AmazonWebServicesCredentialsBinding', accessKeyVariable: 'AWS_ACCESS_KEY_ID', credentialsId: 'jailson-aws', secretKeyVariable: 'AWS_SECRET_ACCESS_KEY']]) {
           dir('terraform') {
             sh """
               export AWS_ACCESS_KEY_ID=\$AWS_ACCESS_KEY_ID
