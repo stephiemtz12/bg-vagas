@@ -22,7 +22,7 @@ pipeline {
       }
     }
 
-    stage('Checkout Bitbucket'){
+    stage('Checkout Producao'){
       when {
         branch env.BRANCH_PRODUCAO
       }
@@ -32,7 +32,7 @@ pipeline {
       }
     }
 
-    stage('Checkout Bitbucket'){
+    stage('Checkout Staging'){
       when {
         branch env.BRANCH_STAGING
       }
