@@ -7,7 +7,7 @@ DATA=$(date '+%Y-%m-%d %H:%M:%S')
 echo "$DATA Fazendo deploy do servidor"
 
 rodar_docker_teste(){
-  docker run -p 80:80 jailsonsilva/bg_app:0.1
+  docker run -p 80:80 jailsonsilva/bg_app:0.2
 }
 
 iniciar_docker_swarm(){
