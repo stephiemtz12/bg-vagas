@@ -1,0 +1,20 @@
+version: "3"
+
+services:
+  app_cand_lata:
+    image: vagascombr/api-candidatos:0.2
+    ports:
+      - 80:5000
+    stdin_open: true
+    tty: true
+    networks:
+      - frontend
+    deploy:
+      replicas: 4
+      update_config:
+        parallelism: 2
+      restart_policy:
+        condition: on-failure
+
+networks:
+  frontend:

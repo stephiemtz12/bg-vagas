@@ -1,0 +1,60 @@
+{
+  "variables": {
+    "aws_region": "us-east-2",
+    "profile": "default",
+    "instance_type": "t3.micro",
+    "versao": "0.1"
+  },
+  "builders": [
+    {
+      "profile": "{{ user `profile`}}",
+      "ami_name": "API-CANDIDATOS-{{isotime | clean_ami_name}}",
+      "ami_description": "Imagem com Ubuntu 16.04 com o app API-CANDIDATOS",
+      "instance_type": "{{ user `instance_type`}}",
+      "name": "{{ user `versao` }}",
+      "region": "{{ user `aws_region`}}",
+      "type": "amazon-ebs",
+      "run_tags": {
+        "Name": "packer-builder-API-CANDIDATOS"
+      },
+      "tags": {
+        "ami-base": "API-CANDIDATOS",
+        "Name": "API-CANDIDATOS",
+        "Linux-Version": "16.04",
+        "Versao_Apps": "{{ user `versao` }}",
+        "Created_by": "Packer"
+      },
+      "launch_block_device_mappings": [
+        {
+          "device_name": "/dev/sda1",
+          "volume_type": "gp2",
+          "volume_size": "30",
+          "delete_on_termination": "true"
+        }
+      ],
+      "source_ami_filter": {
+        "filters": {
+          "virtualization-type": "hvm",
+          "architecture": "x86_64",
+          "name": "ami-chef-docker-prod-v2"
+        },
+        "owners": [
+          "943827446009"
+        ],
+        "most_recent": true
+      },
+      "ssh_username": "ubuntu"
+    }
+  ],
+  "provisioners": [
+    {
+      "type": "file",
+      "source": "docker-compose-qa.yml",
+      "destination": "/opt/docker-compose-qa.yml"
+    },
+    {
+      "type": "shell",
+      "script": "init.sh"
+    }
+  ]
+}
