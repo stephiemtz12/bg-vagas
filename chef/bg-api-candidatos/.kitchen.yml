@@ -1,0 +1,26 @@
+---
+driver:
+  name: vagrant
+  network:
+    - ["forwarded_port", {guest: 80, host: 8080}]
+
+provisioner:
+  name: chef_solo
+  product_name: chef
+  product_version: 12.6.0
+  always_update_cookbooks: true
+
+verifier:
+  name: inspec
+
+platforms:
+  - name: ubuntu-16.04
+
+suites:
+  - name: default
+    run_list:
+      - recipe[bg-api-candidatos]
+    verifier:
+      inspec_tests:
+        - test/integration/default
+    attributes:
