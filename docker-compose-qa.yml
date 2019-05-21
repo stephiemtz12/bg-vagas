@@ -2,7 +2,7 @@ version: "3"
 
 services:
   app_cand_lata:
-    image: jailsonsilva/bg_app:0.2
+    image: jailsonsilva/bg_app:0.1
     ports:
       - 80:80
     stdin_open: true
